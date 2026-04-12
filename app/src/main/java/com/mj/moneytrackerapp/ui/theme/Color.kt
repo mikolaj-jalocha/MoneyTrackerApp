@@ -18,4 +18,12 @@ val BackgroundGreen = Color(0xFFF1FFF3)
 
 val DarkModeGreenBar = Color(0xFF0E3E3E)
 
+val DarkGreen = Color(0xFF052224)
+
 val LettersAndIcons = Color(0xFF093030)
+
+val Blue = Color(0xFF3299FF)
+
+val LightBlue = Color(0xFF6DB6FE)
+
+val OceanBlue = Color(0xFF0068FF)
