@@ -1,4 +1,4 @@
-package com.mj.moneytrackerapp.ui.logging
+package com.mj.moneytrackerapp.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
