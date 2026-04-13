@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
@@ -32,10 +30,8 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.Start
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,16 +39,16 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mj.moneytrackerapp.R
-import com.mj.moneytrackerapp.ui.theme.BackgroundGreen
+import com.mj.moneytrackerapp.ui.components.AppFilledButton
+import com.mj.moneytrackerapp.ui.components.AppTopBar
+import com.mj.moneytrackerapp.ui.components.ExpenseTile
+import com.mj.moneytrackerapp.ui.components.RoundedContentColumn
 import com.mj.moneytrackerapp.ui.theme.Blue
-import com.mj.moneytrackerapp.ui.theme.DarkGreen
 import com.mj.moneytrackerapp.ui.theme.LettersAndIcons
 import com.mj.moneytrackerapp.ui.theme.LightBlue
 import com.mj.moneytrackerapp.ui.theme.LightGreen
 import com.mj.moneytrackerapp.ui.theme.MainGreen
-import com.mj.moneytrackerapp.ui.theme.OceanBlue
 import com.mj.moneytrackerapp.ui.utils.toCurrencyString
-import com.mj.moneytrackerapp.ui.utils.toExpenseDateString
 import java.time.LocalDateTime
 
 @Composable
@@ -64,7 +60,9 @@ fun SpendingSummaryScreen(modifier: Modifier = Modifier) {
     ) {
         Column {
             AppTopBar(title = "Groceries")
-            ShortSummary()
+            ShortSummary(
+                spendingPercent = 30f
+            )
         }
         RoundedContentColumn(
             modifier = Modifier.align(BottomCenter)
@@ -122,101 +120,45 @@ fun SpendingSummaryScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ExpenseTile(
-    title: String,
-    date: LocalDateTime,
-    amount: Double,
-    @DrawableRes
-    iconRes: Int,
-    iconBackgroundColor: Color = Blue
+private fun ShortSummary(
+    spendingPercent: Float
 ) {
-
-    Row(
-        modifier = Modifier
-            .height(IntrinsicSize.Min)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
+        Row(
             modifier = Modifier
-                .clip(RoundedCornerShape(22.dp))
-                .size(width = 57.dp, height = 53.dp)
-                .background(iconBackgroundColor),
-            contentAlignment = Center
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+                .padding(top = 16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Icon(
-                painter = painterResource(iconRes),
-                contentDescription = null,
-                tint = BackgroundGreen,
-                modifier = Modifier.size(32.dp)
+            TotalBalance(
+                amount = 1337.00,
+                iconRes = R.drawable.ic_income,
+                title = "Total balance"
+            )
+
+            VerticalDivider(
+                thickness = 2.dp,
+                modifier = Modifier
+                    .padding(vertical = 2.dp)
+                    .fillMaxHeight(),
+                color = LightGreen
+            )
+
+            TotalBalance(
+                amount = 1337.00,
+                iconRes = R.drawable.ic_expense,
+                title = "Total expenses"
             )
         }
-
-        Spacer(
-            modifier = Modifier.width(16.dp)
-        )
-
-        Column(
-            verticalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-        ) {
-            Text(
-                text = title,
-                color = DarkGreen,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
-
-            Text(
-                text = date.toExpenseDateString(),
-                color = OceanBlue,
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Bold
-            )
-
-        }
-
+        Spacer(Modifier.height(16.dp))
         Text(
-            text = amount.toCurrencyString(),
-            color = OceanBlue,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
+            text = "Spendings cover $spendingPercent% of your income",
+            style = MaterialTheme.typography.bodyMedium
         )
 
-    }
-}
-
-@Composable
-private fun ShortSummary() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(IntrinsicSize.Min)
-            .padding(top = 16.dp),
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        TotalBalance(
-            amount = 1337.00,
-            iconRes = R.drawable.ic_income,
-            title = "Total balance"
-        )
-
-        VerticalDivider(
-            thickness = 2.dp,
-            modifier = Modifier
-                .padding(vertical = 2.dp)
-                .fillMaxHeight(),
-            color = LightGreen
-        )
-
-        TotalBalance(
-            amount = 1337.00,
-            iconRes = R.drawable.ic_expense,
-            title = "Total expenses"
-        )
     }
 }
 
@@ -256,27 +198,6 @@ private fun TotalBalance(
     }
 }
 
-@Composable
-fun RoundedContentColumn(
-    modifier: Modifier = Modifier,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.80f)
-            .background(
-                color = BackgroundGreen,
-                shape = RoundedCornerShape(topStart = 40.dp, topEnd = 40.dp)
-            )
-            .padding(vertical = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(24.dp, alignment = Alignment.Top),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        content = content
-    )
-}
-
-// New: model for an expense item
 private data class ExpenseItem(
     val title: String,
     val date: LocalDateTime,
@@ -285,19 +206,6 @@ private data class ExpenseItem(
     val iconBackgroundColor: Color = Blue
 )
 
-// New: optional calendar icon extracted as composable
-@Composable
-private fun CalendarIcon(onClick: () -> Unit = {}) {
-    IconButton(onClick = onClick) {
-        Icon(
-            imageVector = Icons.Default.DateRange,
-            contentDescription = null,
-            tint = LettersAndIcons,
-        )
-    }
-}
-
-// Zmieniono: MonthlyExpensesSection używa LazyColumn i ma modifier jako pierwszy parametr
 @Composable
 private fun MonthlyExpensesSection(
     modifier: Modifier = Modifier,
@@ -319,7 +227,13 @@ private fun MonthlyExpensesSection(
             ) {
                 Text(text = monthName, style = MaterialTheme.typography.titleSmall)
                 if (showCalendarIcon) {
-                    CalendarIcon(onClick = {})
+                    IconButton(onClick = { }) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = null,
+                            tint = LettersAndIcons,
+                        )
+                    }
                 }
             }
         }
