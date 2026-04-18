@@ -56,7 +56,6 @@ fun SpendingSummaryScreen(modifier: Modifier = Modifier) {
         RoundedContentColumn(
             modifier = Modifier.align(BottomCenter)
         ) {
-
             MonthlyExpensesSection(
                 monthName = "Kwiecień",
                 expenses = listOf(
