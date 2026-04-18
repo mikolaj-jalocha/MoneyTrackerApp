@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -17,10 +18,17 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -39,8 +47,10 @@ import com.mj.moneytrackerapp.ui.components.RoundedContentColumn
 import com.mj.moneytrackerapp.ui.components.ShortCashFlowSummary
 import com.mj.moneytrackerapp.ui.theme.BackgroundGreen
 import com.mj.moneytrackerapp.ui.theme.LettersAndIcons
+import com.mj.moneytrackerapp.ui.theme.LightGreen
 import com.mj.moneytrackerapp.ui.theme.MainGreen
 import com.mj.moneytrackerapp.ui.theme.OceanBlue
+import com.mj.moneytrackerapp.ui.utils.applyIf
 import com.mj.moneytrackerapp.ui.utils.toCurrencyString
 
 @Composable
@@ -60,6 +70,16 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             modifier = Modifier.align(BottomCenter)
         ) {
             HomeScreenShortSummary()
+
+            var selectedIndex by remember { mutableIntStateOf(1) }
+            val options = listOf("Daily", "Weekly", "Monthly")
+
+            DateFilterSegmentedButtonRow(
+                options = options,
+                selectedIndex = selectedIndex,
+                onSelectionChange = { selectedIndex = it }
+            )
+
         }
     }
 }
@@ -200,6 +220,49 @@ private fun HomeScreenSummaryRowItem(
             )
         }
 
+    }
+}
+
+@Composable
+private fun DateFilterSegmentedButtonRow(
+    options: List<String>,
+    selectedIndex: Int,
+    onSelectionChange: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    SingleChoiceSegmentedButtonRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 32.dp)
+            .background(LightGreen, shape = RoundedCornerShape(16.dp))
+            .padding(vertical = 8.dp)
+    ) {
+        options.forEachIndexed { index, label ->
+            SegmentedButton(
+                shape = RoundedCornerShape(32.dp),
+                colors = SegmentedButtonDefaults.colors(
+                    inactiveContainerColor = LightGreen,
+                    activeContainerColor = MainGreen,
+                    activeContentColor = LettersAndIcons,
+                    inactiveContentColor = LettersAndIcons,
+                    activeBorderColor = LightGreen,
+                    inactiveBorderColor = LightGreen
+                ),
+                icon = {},
+                onClick = { onSelectionChange(index) },
+                selected = index == selectedIndex,
+                label = {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.applyIf(selectedIndex == index) {
+                            Modifier.padding(all = 4.dp)
+                        }
+                    )
+                }
+            )
+        }
     }
 }
 
