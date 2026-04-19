@@ -15,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mj.moneytrackerapp.R
 import com.mj.moneytrackerapp.ui.theme.Blue
+import com.mj.moneytrackerapp.ui.theme.DarkGreen
+import com.mj.moneytrackerapp.ui.theme.OceanBlue
 import java.time.LocalDateTime
 
 @Preview(
@@ -106,11 +108,11 @@ fun CategoryTypeIconColorsPreview() {
         )
         CategoryTypeIcon(
             iconRes = R.drawable.ic_car,
-            backgroundColor = com.mj.moneytrackerapp.ui.theme.OceanBlue
+            backgroundColor = OceanBlue
         )
         CategoryTypeIcon(
             iconRes = R.drawable.ic_money,
-            backgroundColor = com.mj.moneytrackerapp.ui.theme.DarkGreen
+            backgroundColor = DarkGreen
         )
     }
 }
@@ -121,7 +123,7 @@ fun CategoryTypeIconColorsPreview() {
     device = Devices.PIXEL_7
 )
 @Composable
-fun ExpenseTilePreview() {
+fun ExpenseTilePreview2() {
     Column(
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -139,6 +141,14 @@ fun ExpenseTilePreview() {
             amount = 3000.00,
             iconRes = R.drawable.ic_income,
             iconBackgroundColor = com.mj.moneytrackerapp.ui.theme.LightBlue
+        )
+        ExpenseTile(
+            title = "Transport",
+            date = LocalDateTime.now(),
+            amount = -200.00,
+            iconRes = R.drawable.ic_car,
+            iconBackgroundColor = OceanBlue,
+            description = "Fuel"
         )
     }
 }

@@ -6,12 +6,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -43,6 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mj.moneytrackerapp.R
 import com.mj.moneytrackerapp.ui.components.AppTopBar
+import com.mj.moneytrackerapp.ui.components.ExpenseTile
 import com.mj.moneytrackerapp.ui.components.RoundedContentColumn
 import com.mj.moneytrackerapp.ui.components.ShortCashFlowSummary
 import com.mj.moneytrackerapp.ui.theme.BackgroundGreen
@@ -52,6 +55,7 @@ import com.mj.moneytrackerapp.ui.theme.MainGreen
 import com.mj.moneytrackerapp.ui.theme.OceanBlue
 import com.mj.moneytrackerapp.ui.utils.applyIf
 import com.mj.moneytrackerapp.ui.utils.toCurrencyString
+import java.time.LocalDateTime
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
@@ -80,6 +84,20 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 onSelectionChange = { selectedIndex = it }
             )
 
+            LazyColumn(
+                contentPadding = PaddingValues(all = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                items(4) {
+                    ExpenseTile(
+                        title = "Transport",
+                        date = LocalDateTime.now().minusDays(Math.random().toLong()),
+                        amount = Math.random()*100,
+                        description = "Fuel",
+                        iconRes = R.drawable.ic_car
+                    )
+                }
+            }
         }
     }
 }
