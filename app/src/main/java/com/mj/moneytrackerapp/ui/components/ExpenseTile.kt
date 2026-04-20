@@ -71,7 +71,7 @@ fun ExpenseTile(
             )
         }
 
-        if (description != null) {
+        if (!description.isNullOrEmpty()) {
             Row(
                 modifier = Modifier
                     .weight(1f),
@@ -81,7 +81,7 @@ fun ExpenseTile(
                 ExpenseTileDivider()
                 Text(
                     text = description,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
                 ExpenseTileDivider()

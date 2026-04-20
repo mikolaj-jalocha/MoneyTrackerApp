@@ -3,6 +3,7 @@ package com.mj.moneytrackerapp.ui.screens
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -45,7 +46,7 @@ fun LogMoneyScreen(modifier: Modifier = Modifier) {
         )
 
         RoundedContentColumn(
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter).fillMaxHeight(0.90f)
         ) {
             LabeledOutlinedField(
                 title = "Date",

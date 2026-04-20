@@ -51,3 +51,13 @@ fun SpendingSummaryScreenPreview2() {
     }
 }
 
+@Preview(
+    device = Devices.PIXEL_7,
+    name = "TransactionScreen - Pixel 7"
+)
+@Composable
+fun TransactionScreenPreview2() {
+    Scaffold { innerPadding ->
+        TransactionScreen(modifier = Modifier.padding(innerPadding))
+    }
+}

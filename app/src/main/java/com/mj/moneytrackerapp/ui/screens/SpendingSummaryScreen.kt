@@ -107,19 +107,20 @@ fun SpendingSummaryScreen(modifier: Modifier = Modifier) {
     }
 }
 
-private data class ExpenseItem(
+data class ExpenseItem(
     val title: String,
     val date: LocalDateTime,
     val amount: Double,
     @DrawableRes val iconRes: Int,
-    val iconBackgroundColor: Color = Blue
+    val iconBackgroundColor: Color = Blue,
+    val description: String = ""
 )
 
 @Composable
-private fun MonthlyExpensesSection(
-    modifier: Modifier = Modifier,
+fun MonthlyExpensesSection(
     monthName: String,
     expenses: List<ExpenseItem>,
+    modifier: Modifier = Modifier,
     showCalendarIcon: Boolean = true
 ) {
     LazyColumn(
@@ -153,7 +154,8 @@ private fun MonthlyExpensesSection(
                 date = item.date,
                 amount = item.amount,
                 iconRes = item.iconRes,
-                iconBackgroundColor = item.iconBackgroundColor
+                iconBackgroundColor = item.iconBackgroundColor,
+                description = item.description
             )
         }
     }
